@@ -23,8 +23,9 @@ class App {
             when (rq.getActionName) {
                 "등록" -> createWS()
                 "목록" -> readWSs()
-                "삭제" -> deleteWS(rq)
                 "수정" -> modifyWS(rq)
+                "삭제" -> deleteWS(rq)
+                "빌드" -> buildJson()
                 "종료" -> break
             }
         }
@@ -83,6 +84,9 @@ class App {
         saveWSFile(wiseSaying)
     }
 
+
+    // --- helper
+
     fun getParamId(rq: Rq): Int? {
         val id = rq.getParamInt("id")
 
@@ -112,7 +116,29 @@ class App {
         }
     }
 
-    fun loadData() {
+
+    // --- File
+
+    private fun buildJson() {
+        val path = "$BASE_DIR/data.json"
+        val sb = StringBuilder()
+
+        sb.append("[").append("\n")
+        wiseSayings.forEachIndexed { index, ws ->
+            sb.append(ws.jsonStr)
+
+            if (index != wiseSayings.lastIndex) {
+                sb.append(",")
+            }
+            sb.append("\n")
+        }
+        sb.append("]")
+
+        File(path).writeText(sb.toString())
+        println("data.json 파일의 내용이 갱신되었습니다.")
+    }
+
+    private fun loadData() {
         wiseSayings.clear()
 
         val dir = File(BASE_DIR)
@@ -124,7 +150,7 @@ class App {
         val files = dir.listFiles() ?: arrayOf()
 
         for (file in files) {
-            if (file.name.endsWith(".json")) {
+            if (file.name.endsWith(".json") && file.name != "data.json") {
                 val jsonStr = FileUtil.readFileText(file.absolutePath)
                 val wiseSaying = WiseSaying.fromJsonStr(jsonStr)
                 wiseSayings.add(wiseSaying)
