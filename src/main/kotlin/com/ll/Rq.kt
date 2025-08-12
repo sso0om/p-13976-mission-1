@@ -18,4 +18,13 @@ class Rq(cmd :String) {
             params.put(paramName, paramVal);
         }
     }
+
+    fun getParam(paramName: String): String? {
+        return params.getOrDefault(paramName, null)
+    }
+
+    fun getParamId(): Int? {
+        val idxStr = getParam("id")
+        return idxStr?.toIntOrNull();
+    }
 }
