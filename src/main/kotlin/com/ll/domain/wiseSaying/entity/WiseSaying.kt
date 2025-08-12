@@ -1,15 +1,17 @@
-package com.ll
+package com.ll.domain.wiseSaying.entity
 
-import com.ll.global.util.JsonUtil.jsonStrToMap
+import com.ll.global.util.JsonUtil
 
 data class WiseSaying(
-    val id: Int,
+    var id: Int = 0,
     var content: String,
     var author: String
 ) {
+    constructor(content: String, author: String) : this(0, content, author)
+
     companion object {
         fun fromJsonStr(jsonStr: String): WiseSaying {
-            val map = jsonStrToMap(jsonStr)
+            val map = JsonUtil.jsonStrToMap(jsonStr)
 
             return WiseSaying(
                 id = (map["id"] as? Int) ?: 0,
@@ -22,6 +24,10 @@ data class WiseSaying(
     fun modify(content: String, author: String) {
         this.content = content
         this.author = author
+    }
+
+    fun isNew(): Boolean {
+        return id == 0
     }
 
     val jsonStr: String
