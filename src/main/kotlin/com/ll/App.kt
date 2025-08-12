@@ -63,8 +63,7 @@ class App {
         print("작가 : ")
         val newAuthor = readLine()?.trim() ?: ""
 
-        wiseSaying.content = newContent
-        wiseSaying.author = newAuthor
+        wiseSaying.modify(newContent, newAuthor)
     }
 
     fun getParamId(rq: Rq): Int? {
