@@ -9,9 +9,10 @@ class App {
 
         while (true) {
             print("명령) ")
-            val cmd = readLine()?.trim()
+            val cmd = readLine()?.trim() ?: ""
+            val rq = Rq(cmd);
 
-            when (cmd) {
+            when (rq.getActionName) {
                 "등록" -> createWS()
                 "목록" -> readWSs()
                 "종료" -> break
