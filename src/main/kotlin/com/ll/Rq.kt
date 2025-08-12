@@ -23,8 +23,8 @@ class Rq(cmd :String) {
         return params.getOrDefault(paramName, null)
     }
 
-    fun getParamId(): Int? {
-        val idxStr = getParam("id")
-        return idxStr?.toIntOrNull();
+    fun getParamInt(paramName: String): Int? {
+        val paramVal = getParam(paramName)
+        return paramVal?.toIntOrNull();
     }
 }
